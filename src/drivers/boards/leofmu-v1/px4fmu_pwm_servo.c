@@ -31,45 +31,57 @@
  *
  ****************************************************************************/
 
-/**
- * @file drv_gps.h
+/*
+ * @file px4fmu_pwm_servo.c
  *
- * GPS driver interface.
+ * Configuration data for the stm32 pwm_servo driver.
+ *
+ * Note that these arrays must always be fully-sized.
  */
 
-#ifndef _DRV_GPS_H
-#define _DRV_GPS_H
-
 #include <stdint.h>
-#include <sys/ioctl.h>
+
+#include <stm32.h>
+#include <stm32_gpio.h>
+#include <stm32_tim.h>
+
+#include <drivers/stm32/drv_pwm_servo.h>
+#include <drivers/drv_pwm_output.h>
 
 #include "board_config.h"
 
-#include "drv_sensor.h"
-#include "drv_orb_dev.h"
+__EXPORT const struct pwm_servo_timer pwm_timers[PWM_SERVO_MAX_TIMERS] = {
+	{
+		.base = STM32_TIM5_BASE,
+		.clock_register = STM32_RCC_APB1ENR,
+		.clock_bit = RCC_APB1ENR_TIM5EN,
+		.clock_freq = STM32_APB1_TIM5_CLKIN
+	}
+};
 
-#ifndef GPS_DEFAULT_UART_PORT
-#define GPS_DEFAULT_UART_PORT "/dev/ttyS1"
-#endif
-
-#define GPS_DEVICE_PATH	"/dev/gps"
-
-typedef enum {
-	GPS_DRIVER_MODE_NONE = 0,
-	GPS_DRIVER_MODE_UBX,
-	GPS_DRIVER_MODE_MTK
-} gps_driver_mode_t;
-
-
-/*
- * ObjDev tag for GPS data.
- */
-ORB_DECLARE(gps);
-
-/*
- * ioctl() definitions
- */
-#define _GPSIOCBASE			(0x2800)            //TODO: arbitrary choice...
-#define _GPSIOC(_n)		(_IOC(_GPSIOCBASE, _n))
-
-#endif /* _DRV_GPS_H */
+__EXPORT const struct pwm_servo_channel pwm_channels[PWM_SERVO_MAX_CHANNELS] = {
+	{
+		.gpio = GPIO_TIM5_CH1OUT,
+		.timer_index = 0,
+		.timer_channel = 1,
+		.default_value = 1000,
+	},
+	{
+		.gpio = GPIO_TIM5_CH2OUT,
+		.timer_index = 0,
+		.timer_channel = 2,
+		.default_value = 1000,
+	},
+	{
+		.gpio = GPIO_TIM5_CH3OUT,
+		.timer_index = 0,
+		.timer_channel = 3,
+		.default_value = 1000,
+	},
+	{
+		.gpio = GPIO_TIM5_CH4OUT,
+		.timer_index = 0,
+		.timer_channel = 4,
+		.default_value = 1000,
+	}
+};

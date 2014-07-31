@@ -111,6 +111,9 @@ int gpio_led_main(int argc, char *argv[])
 #ifdef CONFIG_ARCH_BOARD_PX4FMU_V1
 			char *pin_name = "PX4FMU GPIO_EXT1";
 #endif
+#if defined(CONFIG_ARCH_BOARD_LEOFMU_V1)
+			char *pin_name = "LEOFMU GPIO_NONE";
+#endif
 #ifdef CONFIG_ARCH_BOARD_PX4FMU_V2
 			char pin_name[] = "AUX OUT 1";
 #endif

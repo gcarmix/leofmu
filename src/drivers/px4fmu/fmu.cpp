@@ -108,7 +108,7 @@ public:
 	int		set_pwm_alt_channels(uint32_t channels);
 
 private:
-#if defined(CONFIG_ARCH_BOARD_PX4FMU_V1)
+#if defined(CONFIG_ARCH_BOARD_PX4FMU_V1) || defined(CONFIG_ARCH_BOARD_LEOFMU_V1)
 	static const unsigned _max_actuators = 4;
 #endif
 #if defined(CONFIG_ARCH_BOARD_PX4FMU_V2)
@@ -194,6 +194,12 @@ const PX4FMU::GPIOConfig PX4FMU::_gpio_tab[] = {
 	{GPIO_GPIO5_INPUT, GPIO_GPIO5_OUTPUT, GPIO_USART2_RX_1},
 	{GPIO_GPIO6_INPUT, GPIO_GPIO6_OUTPUT, GPIO_CAN2_TX_2},
 	{GPIO_GPIO7_INPUT, GPIO_GPIO7_OUTPUT, GPIO_CAN2_RX_2},
+#endif
+#if defined(CONFIG_ARCH_BOARD_LEOFMU_V1)
+	{GPIO_GPIO0_INPUT,       GPIO_GPIO0_OUTPUT,       0},
+	{GPIO_GPIO1_INPUT,       GPIO_GPIO1_OUTPUT,       0},
+	{GPIO_GPIO2_INPUT,       GPIO_GPIO2_OUTPUT,       0},
+	{GPIO_GPIO3_INPUT,       GPIO_GPIO3_OUTPUT,       0},
 #endif
 #if defined(CONFIG_ARCH_BOARD_PX4FMU_V2)
 	{GPIO_GPIO0_INPUT,       GPIO_GPIO0_OUTPUT,       0},
@@ -1538,6 +1544,10 @@ fmu_new_mode(PortMode new_mode)
 		/* select 4-pin PWM mode */
 		servo_mode = PX4FMU::MODE_4PWM;
 #endif
+#if defined(CONFIG_ARCH_BOARD_LEOFMU_V1)
+		/* select 4-pin PWM mode */
+servo_mode = PX4FMU::MODE_4PWM;
+#endif
 #if defined(CONFIG_ARCH_BOARD_PX4FMU_V2)
 		servo_mode = PX4FMU::MODE_6PWM;
 #endif
@@ -1862,6 +1872,8 @@ fmu_main(int argc, char *argv[])
 #if defined(CONFIG_ARCH_BOARD_PX4FMU_V1)
 	fprintf(stderr, "  mode_gpio, mode_serial, mode_pwm, mode_gpio_serial, mode_pwm_serial, mode_pwm_gpio, test\n");
 #elif defined(CONFIG_ARCH_BOARD_PX4FMU_V2) || defined(CONFIG_ARCH_BOARD_AEROCORE)
+	fprintf(stderr, "  mode_gpio, mode_pwm, test, sensor_reset [milliseconds]\n");
+#elif defined(CONFIG_ARCH_BOARD_LEOFMU_V1)
 	fprintf(stderr, "  mode_gpio, mode_pwm, test, sensor_reset [milliseconds]\n");
 #endif
 	exit(1);

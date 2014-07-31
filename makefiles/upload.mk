@@ -24,6 +24,9 @@ endif
 .PHONY:	all upload-$(METHOD)-$(BOARD)
 all:	upload-$(METHOD)-$(BOARD)
 
+upload-serial-leofmu-v1:	$(BUNDLE) $(UPLOADER)
+	$(Q) $(PYTHON) -u $(UPLOADER) --port $(SERIAL_PORTS) $(BUNDLE)
+	
 upload-serial-px4fmu-v1:	$(BUNDLE) $(UPLOADER)
 	$(Q) $(PYTHON) -u $(UPLOADER) --port $(SERIAL_PORTS) $(BUNDLE)
 

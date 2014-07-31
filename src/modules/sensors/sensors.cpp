@@ -119,6 +119,12 @@
 #define ADC_AIRSPEED_VOLTAGE_CHANNEL	11
 #endif
 
+#ifdef CONFIG_ARCH_BOARD_LEOFMU_V1
+#define ADC_BATTERY_VOLTAGE_CHANNEL	 10
+#define ADC_BATTERY_CURRENT_CHANNEL	-1
+#define ADC_AIRSPEED_VOLTAGE_CHANNEL	-1
+#endif
+
 #ifdef CONFIG_ARCH_BOARD_PX4FMU_V2
 #define ADC_BATTERY_VOLTAGE_CHANNEL	2
 #define ADC_BATTERY_CURRENT_CHANNEL	3
@@ -866,6 +872,10 @@ Sensors::accel_init()
 
 		/* set the driver to poll at 1000Hz */
 		ioctl(fd, SENSORIOCSPOLLRATE, 1000);
+#elif CONFIG_ARCH_BOARD_LEOFMU_V1
+
+		/* set the accel internal sampling rate up to at leat 800Hz */
+		ioctl(fd, ACCELIOCSSAMPLERATE, 1000);
 
 #elif CONFIG_ARCH_BOARD_PX4FMU_V2 || CONFIG_ARCH_BOARD_AEROCORE
 

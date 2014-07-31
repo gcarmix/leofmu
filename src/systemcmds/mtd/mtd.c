@@ -254,7 +254,7 @@ mtd_start(char *partition_names[], unsigned n_partitions)
 		errx(1, "mtd already mounted");
 
 	if (!attached) {
-		#ifdef CONFIG_ARCH_BOARD_PX4FMU_V1
+		#if defined(CONFIG_ARCH_BOARD_PX4FMU_V1)|| defined(CONFIG_ARCH_BOARD_LEOFMU_V1)
 		at24xxx_attach();
 		#else
 		ramtron_attach();
