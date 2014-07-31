@@ -1,0 +1,41 @@
+***************
+*** 81,99 ****
+  #include "mavlink_commands.h"
+  
+  #ifndef MAVLINK_CRC_EXTRA
+  #error MAVLINK_CRC_EXTRA has to be defined on PX4 systems
+  #endif
+  
+  /* oddly, ERROR is not defined for c++ */
+  #ifdef ERROR
+  # undef ERROR
+  #endif
+  static const int ERROR = -1;
+  
+- #define DEFAULT_DEVICE_NAME	"/dev/ttyS1"
+  #define MAX_DATA_RATE	10000	// max data rate in bytes/s
+  #define MAIN_LOOP_DELAY 10000	// 100 Hz @ 1000 bytes/s data rate
+  
+  static Mavlink *_mavlink_instances = nullptr;
+  
+  /* TODO: if this is a class member it crashes */
+--- 81,99 ----
+  #include "mavlink_commands.h"
+  
+  #ifndef MAVLINK_CRC_EXTRA
+  #error MAVLINK_CRC_EXTRA has to be defined on PX4 systems
+  #endif
+  
+  /* oddly, ERROR is not defined for c++ */
+  #ifdef ERROR
+  # undef ERROR
+  #endif
+  static const int ERROR = -1;
+  
++ #define DEFAULT_DEVICE_NAME	"/dev/ttyS2"
+  #define MAX_DATA_RATE	10000	// max data rate in bytes/s
+  #define MAIN_LOOP_DELAY 10000	// 100 Hz @ 1000 bytes/s data rate
+  
+  static Mavlink *_mavlink_instances = nullptr;
+  
+  /* TODO: if this is a class member it crashes */
